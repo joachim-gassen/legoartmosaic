@@ -103,7 +103,7 @@ server <- function(session, input, output){
   
   observeEvent(input$image_file, {
     rv$picture <- image_read(input$image_file$datapath) %>%
-      image_resize("48")
+      image_resize("48x48!")
   })
   
   observe({

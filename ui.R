@@ -21,7 +21,8 @@ ui <- fluidPage(
       "can start with an automated conversion and then customize it", 
       "manually as you please before downloading a TIFF file containing the",
       "mosaic image and a PDF file containing building instructions.",
-      "Enjoy!</p>" 
+      "For more information, please see this", 
+      "<a href=https://bit.ly/legoamg>blog post</a>. Enjoy!</p>" 
     ))
   ),
   hr(),

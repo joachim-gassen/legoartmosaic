@@ -27,12 +27,18 @@ While this is still work in progress, the basic functionality is there. What wor
 ### What is still missing
 
 - [ ] An option for additional selections (using 'Shift' + Click)
-- [ ] A blog post to tell a story on rapid prototyping of fun but useless things over Christmas using the power of Open Source development 
+- [ ] Maybe allow custom tile sets?
+- [ ] Some code cleaning....
 
 
 ### Can I just... use it?
 
 Yes: [Clic here](https://jgassen.shinyapps.io/legoartmosaic/)! No worries: Your image will only processed in server-side memory and not stored. Be advised: The app is not done but it works (TM). Use at your own risk. I would encourage you to save your work when you start modifying your mosaic by downloading the resulting image from time to time. When you load a partly converted saved image, make sure to adjust the number of colors so that the app does not compress the mosaic colors. 
+
+
+### For more Information...
+
+... you could take a look at this [blog post](https://bit.ly/legoamg).
 
 
 ### Disclaimer
