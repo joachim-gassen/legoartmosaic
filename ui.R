@@ -43,11 +43,12 @@ ui <- fluidPage(
       ),
       conditionalPanel(
         "typeof output.mosaic !== 'undefined'",
-        sliderInput(
-          "number_of_colors", "Reduce original to how many colors?", 
-          min = 2, max = 256, value = 24
+        actionButton(
+          "rotate_image",
+          "Rotate image 90° clockwise"
         ),
-        helpText("Changing this will reset the image."),
+        helpText("Rotating will reset the image."),
+        div(style="margin-bottom:10px"),
         hr(),
         checkboxInput(
           "use_orig_img",
@@ -66,6 +67,13 @@ ui <- fluidPage(
           "reduction option or manually insert pixels that 'break' the large",
           "area prior to conversion."
         ),
+        hr(),
+        sliderInput(
+          "number_of_colors", "Reduce image to how many colors?", 
+          min = 2, max = 256, value = 24
+        ),
+        helpText("This will reset the image. Reducing the image colors", 
+                 "makes manual conversion easier."),
         hr(),
         radioButtons(
           "sel_type", "Mouse selection type",
@@ -100,8 +108,12 @@ ui <- fluidPage(
         downloadButton("download_mosaic", "Mosaic as TIFF file"),
         hr(),
         downloadButton(
-          "download_inst", "PDF with building instructions"
+          "download_inst", "PDF with building instructions", 
         ),
+        helpText(
+          "Download becomes available when all image colors are converted to",
+          "mosaic colors and all tile limitations are met."
+        )
       )
     ),
     mainPanel(

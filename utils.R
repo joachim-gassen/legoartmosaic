@@ -91,8 +91,11 @@ best_color_match <- function(x, y, method = "redmean") {
       sqrt(3*(y[1,] - x[1])^2 + 4*(y[2,] - x[2])^2 + 2*(y[3,] - x[3])^2)
     )
   } else stop(sprintf("Method '%s' is not implemented."))
-  if (data == "col") return(y[match(min(dist), dist)])
-  else return(y[, match(min(dist), dist)])
+  y <- y[, match(min(dist), dist)]
+  if (data == "col") {
+    return(rgb(y[1], y[2], y[3], maxColorValue = 255))
+  }
+  else return(y)
 }
 
 

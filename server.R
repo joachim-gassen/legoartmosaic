@@ -106,6 +106,10 @@ server <- function(session, input, output){
       image_resize("48x48!")
   })
   
+  observeEvent(input$rotate_image, {
+    rv$picture <- image_rotate(rv$picture, 90)
+  })
+  
   observe({
     req(rv$picture, input$number_of_colors, input$target)
     pic <- rv$picture %>%
@@ -177,7 +181,9 @@ server <- function(session, input, output){
         )        
     }
     
-    if (!any(rv$color_palette$source[rv$image$value] == "Image")) {
+    if (!any(rv$color_palette$source[unique(rv$image$value)] == "Image") &
+        !any(rv$color_palette$used[unique(rv$image$value)] > 
+             rv$color_palette$available[unique(rv$image$value)])) {
       enable("download_inst")
     } else {
       disable("download_inst")
