@@ -1,9 +1,9 @@
 library(raster)
+library(sf)
 library(tidyverse)
 library(leaflet)
 library(shiny)
 library(shinyjs)
-library(sf)
 library(magick)
 
 
@@ -15,7 +15,7 @@ read_lego_art_palettes <- function() {
   if (!file.exists("data/lego_art_palettes.rds")) stop(
     "You need to source 'load_rebrickable_data.R' once to create palette data."
   )
-  readRDS("data/lego_art_palettes.rds")
+  readRDS("data/lego_art_palettes.rds") 
 }
 
 

@@ -14,8 +14,7 @@ ui <- fluidPage(
   fluidRow(
     column(4, HTML("<br>")),
     column(8, HTML(
-      "<p>This is a fun Holiday project that started with a Christmas present.", 
-      "The relatively new <a href=https://www.lego.com/en-us/themes/art/about>",
+      "<p>The <a href=https://www.lego.com/en-us/themes/art/about>",
       "LEGO Arts theme sets</a> allow the construction of neat 48*48 mosaics.",
       "This app enables you to create such mosaics from your own images. You",
       "can start with an automated conversion and then customize it", 

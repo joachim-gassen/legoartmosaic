@@ -3,7 +3,7 @@ library(readr)
 
 # https://rebrickable.com/downloads/ for data
 
-rebrickable_data <- c("inventories", "sets", "inventory_parts", "lego_colors")
+rebrickable_data <- c("inventories", "sets", "inventory_parts", "colors")
 filepaths <- paste0("data/", rebrickable_data, ".csv")
 
 if (any(!file.exists(filepaths))) stop(paste(
@@ -25,11 +25,13 @@ lego_art_palettes <- sets %>%
   ) %>% 
   mutate(source = name) %>%
   select(source, color_id, quantity) %>%
-  left_join(lego_colors, by = c("color_id" = "id")) %>%
+  left_join(colors, by = c("color_id" = "id")) %>%
   rename(available = quantity) %>%
   mutate(
     hex = paste0("#", rgb)
   ) %>% 
+  group_by(source, name, hex) %>%
+  summarise(available = sum(available), .groups = "drop") %>%
   select(source, name, hex, available)
 
 saveRDS(lego_art_palettes, "data/lego_art_palettes.rds")
