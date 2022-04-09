@@ -15,7 +15,7 @@ read_lego_art_palettes <- function() {
   if (!file.exists("data/lego_art_palettes.rds")) stop(
     "You need to source 'load_rebrickable_data.R' once to create palette data."
   )
-  readRDS("data/lego_art_palettes.rds") 
+  readRDS("data/lego_art_palettes.rds")
 }
 
 
@@ -31,7 +31,7 @@ get_palette_from_image <- function(img, target_palette) {
     hex = names(a),
     available = 0,
     used = unname(a)
-  ) %>% 
+  ) %>%
     full_join(
       target_palette %>%
         rename(
@@ -47,7 +47,7 @@ get_palette_from_image <- function(img, target_palette) {
       used = ifelse(!is.na(used), used, 0),
       value = row_number()
     ) %>%
-    select(1:5, 9)
+    dplyr::select(1:5, 9)
 }
 
 
@@ -78,7 +78,7 @@ color_distance <- function(x, y, method = "redmean") {
 best_color_match <- function(x, y, method = "redmean") {
   if (length(x) == 1) data <- "col" else data <- "rgb"
   if (data == "col") {
-    x <- col2rgb(x) 
+    x <- col2rgb(x)
     y <- col2rgb(y)
   }
   if (method == "euclidian") {
@@ -139,29 +139,29 @@ plot_instruction_pic <- function(img, palette, part = NULL) {
     x = 1:nrow(img)
   ) %>% mutate(
     tile = factor(
-      match(hex, palette$hex), 1:nrow(palette), 
+      match(hex, palette$hex), 1:nrow(palette),
       labels = paste0(1:nrow(palette), ": ", palette$name)
     )
   )
-  
+
   df$y <- rev(df$y)
   df$color_text <- factor(
     sapply(palette$hex[df$tile], pick_text_color_for_bground),
     levels = c("#000000", "#ffffff")
   )
-  
-  ggplot(df, aes(x, y, fill = tile, label = as.integer(tile))) + 
-    geom_point(pch=21, size=8, color = "black") + 
-    scale_fill_manual(values = palette$hex, drop = FALSE) + 
+
+  ggplot(df, aes(x, y, fill = tile, label = as.integer(tile))) +
+    geom_point(pch=21, size=8, color = "black") +
+    scale_fill_manual(values = palette$hex, drop = FALSE) +
     labs(
-      x = "", y = "", fill = "Tile", 
+      x = "", y = "", fill = "Tile",
       title = ifelse(!is.null(part), paste("Part", part), "")
     ) +
     geom_text(aes(
       color = color_text
-    ), size = 3, show.legend = FALSE) + 
+    ), size = 3, show.legend = FALSE) +
     scale_color_manual(values = c("black", "white"), drop = FALSE) +
-    theme_minimal() 
+    theme_minimal()
 }
 
 
@@ -169,17 +169,17 @@ plot_instruction_start <- function(img, palette) {
   hex <- as.vector(apply(
     img/255, c(2, 1), function(x) rgb(x[1], x[2], x[3])
   ))
-  
+
   df <- expand_grid(
     y = 1:ncol(img),
     x = 1:nrow(img)
   ) %>% mutate(
     tile = factor(
-      match(hex, palette$hex), 1:nrow(palette), 
+      match(hex, palette$hex), 1:nrow(palette),
       labels = paste0(1:nrow(palette), ": ", palette$name)
     )
   )
-  
+
   df$y <- rev(df$y)
 
   pg <- tibble(
@@ -189,21 +189,21 @@ plot_instruction_start <- function(img, palette) {
     ymax = c(48.5, 48.5, 48.5, 32.5, 32.5, 32.5, 16.5, 16.5, 16.5),
     label = 1:9
   )
-  
-  p <- ggplot() + 
+
+  p <- ggplot() +
     geom_point(
       data = df, aes(x, y, fill = tile), pch = 21, size = 2, color = "black"
-    ) + 
+    ) +
     geom_rect(
       data = pg, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
       fill = "white", alpha = 0.5, color = "black"
-    ) + 
+    ) +
     geom_text(
-      data = pg, 
-      aes(x = xmin+(xmax - xmin)/2, y = ymin + (ymax - ymin)/2, label = label), 
+      data = pg,
+      aes(x = xmin+(xmax - xmin)/2, y = ymin + (ymax - ymin)/2, label = label),
       size = 8
     ) +
-    scale_fill_manual(values = palette$hex, drop = FALSE) + 
+    scale_fill_manual(values = palette$hex, drop = FALSE) +
     theme_void() +
     labs(
       x = NULL, y = NULL, title = NULL,
@@ -213,21 +213,21 @@ plot_instruction_start <- function(img, palette) {
       )
     ) +
     theme(
-      legend.position = "none", 
+      legend.position = "none",
       plot.margin = margin(1, 1, 2, 7, "cm"),
       plot.title.position = "plot",
       plot.title = element_text(hjust = -0.4)
     )
-  
+
   title.grob <- grid::textGrob(
     label = sprintf(
       "LEGO Art Mosaic based on '%s' set", unique(palette$source)
     ),
-    x = unit(1, "lines"), 
+    x = unit(1, "lines"),
     y = unit(-1, "lines"),
     hjust = 0, vjust = 0,
     gp = grid::gpar(fontsize = 16))
-  
+
   gridExtra::arrangeGrob(p, top = title.grob)
 }
 
